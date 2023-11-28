@@ -1,28 +1,27 @@
 from datetime import datetime, timedelta
 
-from pony.orm import *
+from pony.orm import Optional, Required, Set, set_sql_debug
 
-db = Database()
+
+from db import db
 
 
 class User(db.Entity):
-    id = PrimaryKey(int, auto=True)
     name = Optional(str)
     workouts = Set('Workout')
 
 
 class Workout(db.Entity):
-    id = PrimaryKey(int, auto=True)
     date = Optional(datetime)
     duration = Optional(timedelta)
     user = Required(User)
-    sets = Set('Set')
+    sets = Set('WorkoutSet')
 
 
-class Set(db.Entity):
-    id = PrimaryKey(int, auto=True)
+class WorkoutSet(db.Entity):
     workout = Required(Workout)
-    exercises = Required('Exercise')
+    date = Required(datetime)
+    exercise = Required('Exercise')
     duration = Optional(timedelta)
     weight = Optional(float)
     rest = Optional(timedelta)
@@ -30,9 +29,10 @@ class Set(db.Entity):
 
 
 class Exercise(db.Entity):
-    id = PrimaryKey(int, auto=True)
     title = Optional(str)
-    set = Optional(Set)
+    sets = Set(WorkoutSet)
 
 
 # db.generate_mapping()
+set_sql_debug(True)
+# db.generate_mapping(create_tables=True)

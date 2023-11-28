@@ -19,10 +19,11 @@ class Workout(pydantic.BaseModel):
     user: User
 
 
-class Set(pydantic.BaseModel):
+class WorkoutSet(pydantic.BaseModel):
     id: int
     workout: Workout
-    exercises: 'Exercise'
+    date: datetime
+    exercise: 'Exercise'
     duration: datetime
     weight: float
     rest: datetime
@@ -32,4 +33,4 @@ class Set(pydantic.BaseModel):
 class Exercise(pydantic.BaseModel):
     id: int
     title: str
-    set: Set
+    set: WorkoutSet
