@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 
 from pony.orm import Optional, Required, Set, set_sql_debug
 
-
 from db import db
 
 
